@@ -2,12 +2,22 @@
 
 Fonte canônica. Cursor, Claude Code e Codex redirecionam pra cá.
 
+**Repo:** https://github.com/rodniski/agents (private)
+
 ```
 ~/.agents/
   AGENTS.md          # preferências universais
   skills/            # skills (única cópia)
   bin/ensure-redirects
   README.md
+```
+
+## Nova máquina
+
+```bash
+git clone git@github.com:rodniski/agents.git ~/.agents
+# ou: gh repo clone rodniski/agents ~/.agents
+~/.agents/bin/ensure-redirects
 ```
 
 ## Garantir carga em toda conversa
