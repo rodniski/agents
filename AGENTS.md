@@ -171,6 +171,8 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `macos-design` | app macOS, native-feel, desktop Apple, traffic lights/sidebar |
 | `secure-by-design` | feature sensível, auth, cookie, API, upload, admin, PII/clínico, threat model pré-ship |
 | `secops-triage` | alerta, IOC, incidente, log suspeito, contain, MITRE |
+| `wayfinder` | mapa de projeto, épico na neblina, chartar decisões, frontier (`/wayfinder`) |
+| `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
 | `creating-pull-requests` | criar/abrir PR, publicar branch pra review |
 | `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
 | `find-skills` | “tem skill pra X?”, achar/instalar skill |
