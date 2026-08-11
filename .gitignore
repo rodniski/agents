@@ -1,0 +1,21 @@
+# local / OS
+.DS_Store
+*.swp
+*~
+
+# secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets/
+
+# incident dumps / PII
+incidents/
+*.ioc.json
+
+# editor
+.idea/
+.vscode/

@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CANON="${HOME}/.agents"
+SKILLS="${CANON}/skills"
+AGENTS="${CANON}/AGENTS.md"
+CURSOR_RULES="${HOME}/.cursor/rules"
+CURSOR_RULE="${CURSOR_RULES}/gui-agents.mdc"
+
+mkdir -p "$SKILLS" "$CURSOR_RULES" "${HOME}/.claude" "${HOME}/.codex" "${HOME}/.cursor"
+test -f "$AGENTS" || { echo "missing $AGENTS"; exit 1; }
+
+ln -sfn "$SKILLS" "${HOME}/.claude/skills"
+ln -sfn "$SKILLS" "${HOME}/.cursor/skills"
+ln -sfn "$AGENTS" "${HOME}/.claude/CLAUDE.md"
+ln -sfn "$AGENTS" "${HOME}/.codex/AGENTS.md"
+
+# Cursor não tem CURSOR.md nem AGENTS.md global. Link via rule alwaysApply + @arquivo.
+cat > "$CURSOR_RULE" <<EOF
+---
+description: Preferências pessoais do Gui (canônico em ~/.agents/AGENTS.md)
+alwaysApply: true
+---
+
+Siga integralmente as preferências pessoais em:
+
+@${AGENTS}
+
+Em conflito de domínio/produto, o \`AGENTS.md\` do repositório (e Project Rules) vencem este arquivo.
+EOF
+
+echo "Redirects OK:"
+printf '  %s -> %s\n' \
+  ~/.claude/skills "$(readlink ~/.claude/skills)" \
+  ~/.cursor/skills "$(readlink ~/.cursor/skills)" \
+  ~/.claude/CLAUDE.md "$(readlink ~/.claude/CLAUDE.md)" \
+  ~/.codex/AGENTS.md "$(readlink ~/.codex/AGENTS.md)"
+echo "  ~/.cursor/rules/gui-agents.mdc -> @${AGENTS} (alwaysApply)"
