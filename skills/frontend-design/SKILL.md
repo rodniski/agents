@@ -18,6 +18,20 @@ Julgamento = classicista (Renascimento / Grécia): proporção, ritmo, peso tipo
 
 Você é o design lead que o cliente já rejeitou quando veio “template”. Tome partido. Arrisque **uma** ousadia justificável.
 
+**Todo projeto do Gui herda este taste.** Cor e metáfora mudam; filosofia de espaço/material/tokens não.
+
+Antes de codar UI, leia:
+- sempre → `references/material-and-space.md`
+- sempre → `references/token-architecture.md`
+- motion M3 / springs → `references/motion-m3-expressive.md`
+- labs/m4doc no m4core → skill do repo `m4core-labs-ui-travertino` (vocabulário fechado; vence dialeto genérico)
+
+```text
+Filosofia (estas refs)  → espaço, material, papéis de token, contenção
+Dialeto do projeto     → metáfora + cores deste produto
+Vocabulário fechado     → só onde o DS do repo manda (ex.: Travertino)
+```
+
 ## Modelo de trabalho (antes do código)
 
 Escreva três coisas:
@@ -28,11 +42,12 @@ Escreva três coisas:
 
 Cada seção: **um** emprego, **uma** ideia visual dominante, **uma** takeaway/ação.
 
-Depois feche o sistema curto:
+Depois feche o sistema curto (papéis da ref de tokens; valores = dialeto):
 
-- **Cor:** 4–6 hex nomeados + papel (fundo / texto / acento / perigo)
+- **Material:** uma frase de metáfora (não copiar bronze/verdigris fora do labs)
+- **Cor:** 4–6 valores nomeados nos papéis fundo / superfície / ação / realce / raro / perigo
 - **Tipo:** no máx. 2 famílias (display + body); utility só com motivo
-- **Layout:** uma frase + ASCII do fold
+- **Layout:** uma frase + ASCII do fold — elevação por tom, ilhas não cards
 - **Assinatura:** o único gesto que a página será lembrada
 
 Critique: se trocar o nome do cliente e ainda parecer o SaaS genérico que você faria pra qualquer brief, a assinatura é fraca — refaça **só ela**.
@@ -71,7 +86,8 @@ Brief manda um desses looks → obedeça. Senão, não gaste liberdade aí.
 | Ramo | Postura | Stack |
 |------|---------|--------|
 | **Landing / marca / Awwwards** | Teatro controlado, emoção, poster | Astro + Tailwind + **GSAP**; Three só se o 3D **for** a assinatura |
-| **Produto labs** | Densidade, DS, operação | SvelteKit + tokens/bits-ui/Travertino |
+| **Produto labs / m4doc** | Densidade + Travertino (fechado) | SvelteKit + tokens/bits-ui; skill `m4core-labs-ui-travertino` |
+| **Outro produto** | Densidade + dialeto novo na filosofia | Stack do repo; retonalizar papéis, não copiar labs |
 | **App interno** | Clareza operacional | DS existente; zero hero de marketing |
 
 Misturar ramo (Three no consultório / cards de feature no hero de campanha) = recomeçar o plano.

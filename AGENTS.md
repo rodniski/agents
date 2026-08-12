@@ -154,13 +154,15 @@ Núcleo (se a skill ainda não estiver em contexto): sem puffery/vocabulário IA
 
 # Trabalho Visual e Design
 
+Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend-design` (`references/material-and-space.md`, `references/token-architecture.md`). Cor e metáfora = dialeto do produto. Bronze/verdigris/ouro = só labs/m4doc (Travertino no m4core).
+
 - Não altere componentes reais primeiro. Pra mudança de UI, layout ou texto que não seja trivial: crie mocks estáticos separados, publique-os e relate a URL. Pare e aguarde aprovação antes de implementar.
 - **Landings / SPA (Awwwards):** composição, motion (GSAP/Three.js) e estética forte — sem visual genérico de template.
-- **Apps de produto:** siga a linguagem visual do projeto (dark pode ser `#000`, charcoal, navy… o que o design system mandar). Densidade de informação, pouco enfeite, sem cards/pílulas decorativas se o projeto não usa.
+- **Apps de produto:** fidelidade ao DS do repo em cima da filosofia (ilhas/tom/papéis de token). Densidade, pouco enfeite, sem cards/pílulas decorativas se o projeto não usa.
 - Evite repaints contínuos de animações CSS (pulsação, brilho, desfoque, spinners). Sobrecarregam a GPU em telas de alta taxa de atualização.
 
-- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso.
-- **FAÇA:** Landing = teatro visual controlado. App produto = densidade e fidelidade ao design system existente.
+- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso. Copiar paleta Travertino pra projeto que não é labs.
+- **FAÇA:** Landing = teatro visual controlado. App produto = densidade + dialeto do projeto sobre a mesma filosofia de espaço.
 
 # Raio de Impacto (Blast radius)
 
