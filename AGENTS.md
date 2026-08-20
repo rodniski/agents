@@ -175,6 +175,7 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
 | `creating-pull-requests` | criar/abrir PR, publicar branch pra review |
 | `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
+| `unslop` | unslop, tirar slop/cara de IA, reescrever copy/docs/changelog/PR mais humano |
 | `find-skills` | “tem skill pra X?”, achar/instalar skill |
 
 Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
