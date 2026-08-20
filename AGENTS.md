@@ -132,6 +132,16 @@ Microsserviços em Go seguindo Clean Architecture, dentro de um monorepo com Tur
 
 **Fluxo:** browser/mobile → Connect (HTTP/JSON) no BFF → gRPC nos serviços de domínio. Contrato único via Protobuf (buf) gera clients Go, Web, Swift e Kotlin.
 
+# Unslop (sempre)
+
+Vale em **todo** harness (Cursor, Claude, Codex) e em **toda** prosa pra mim: chat, explicação, docs, PR, copy. Não é só front.
+
+1. No início da conversa, leia `skills/unslop/SKILL.md` e siga o corpo.
+2. Antes de texto longo (docs, changelog, PR body, post), releia se precisar; self-audit “o que ainda grita IA?”.
+3. Código, diff e contrato técnico denso não se “unslopam” como prosa — mas a fala em volta deles, sim.
+
+Núcleo (se a skill ainda não estiver em contexto): sem puffery/vocabulário IA; sem bajulação nem frase de chatbot; voz ativa; palavra simples; fato concreto > feeling; sem emoji ornamental; bold raro; sentence case.
+
 # Perguntas são Apenas Leitura (Read-Only)
 
 - Uma pergunta é solicitação de resposta, não de mudança. Se a mensagem avalia ideias, possibilidades ou pede opinião, responda em texto e não edite nenhum arquivo.
@@ -165,8 +175,11 @@ Microsserviços em Go seguindo Clean Architecture, dentro de um monorepo com Tur
 
 Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). **Não espere o usuário digitar `/skill`.** Se o pedido casar com o gatilho, leia o `SKILL.md` correspondente **antes** de agir e siga o corpo.
 
+`unslop` é **always-on**: carrega em toda conversa (ver seção Unslop acima), não só por gatilho.
+
 | Skill | Gatilho (quando carregar) |
 |-------|---------------------------|
+| `unslop` | **sempre** — toda prosa ao Gui; também `/unslop`, tirar slop, “parece ChatGPT” |
 | `frontend-design` | UI, landing, redesign, tipografia, motion, imagery, anti-template |
 | `macos-design` | app macOS, native-feel, desktop Apple, traffic lights/sidebar |
 | `secure-by-design` | feature sensível, auth, cookie, API, upload, admin, PII/clínico, threat model pré-ship |
@@ -175,7 +188,6 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
 | `creating-pull-requests` | criar/abrir PR, publicar branch pra review |
 | `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
-| `unslop` | unslop, tirar slop/cara de IA, reescrever copy/docs/changelog/PR mais humano |
 | `find-skills` | “tem skill pra X?”, achar/instalar skill |
 
 Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
