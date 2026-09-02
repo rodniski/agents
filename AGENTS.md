@@ -186,6 +186,8 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `design-taste-frontend` | landing, portfólio, site de marketing, redesign de página pública: dials, AI tells, pre-flight anti-slop |
 | `redesign-existing-projects` | melhorar/modernizar/auditar site ou app existente sem reescrever, tirar cara de IA |
 | `minimalist-ui` | só quando a direção já for editorial/minimalista tipo Notion ou Linear |
+| `high-end-visual-design` | só quando a direção pedida for premium/agência tipo Apple: vidro, double-bezel, spring motion |
+| `industrial-brutalist-ui` | só quando a direção pedida for brutalista/industrial: Swiss print, terminal tático |
 | `macos-design` | app macOS, native-feel, desktop Apple, traffic lights/sidebar |
 | `secure-by-design` | feature sensível, auth, cookie, API, upload, admin, PII/clínico, threat model pré-ship |
 | `secops-triage` | alerta, IOC, incidente, log suspeito, contain, MITRE |
@@ -195,7 +197,7 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
 | `find-skills` | “tem skill pra X?”, achar/instalar skill |
 
-As três de taste (`design-taste-frontend`, `redesign-existing-projects`, `minimalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (React/Next/Motion) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
+As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (React/Next/Motion) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
 
 Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
 
