@@ -117,7 +117,9 @@ A ladder vale — mas **estética não é degrau descartável**. Default nativo 
 
 ## Stacks
 
-- **Web (labs):** SvelteKit 2, Svelte 5, TypeScript, Vite, Tailwind 4, Bun, TanStack Svelte Query, bits-ui, Connect-Web e Protobuf (buf).
+- **Web (default pra projeto novo/pessoal):** TanStack Start + React, TypeScript, Vite, Tailwind 4, Bun. Família TanStack primeiro (Query, Router, Form, Table, Virtual, Store/DB) antes de qualquer lib avulsa.
+- **Web (labs / m4core):** SvelteKit 2, Svelte 5, TypeScript, Vite, Tailwind 4, Bun, TanStack Svelte Query, bits-ui, Connect-Web e Protobuf (buf). Repo existente segue a stack dele.
+- **Motion:** GSAP (timeline, ScrollTrigger, SVG, set pieces), Motion (motion.dev — ex-Framer Motion: interação de UI, springs, layout, gestos) e Anime.js v4 (efeito pontual e leve). Um papel por lib por projeto; não misturar duas no mesmo componente.
 - **Mobile:** estritamente nativo. iOS com Swift + SwiftUI; Android com Kotlin + Material Design (M3 Expressive: `MotionScheme`, springs spatial/effects). Mesmo contrato proto via Connect-Swift e Connect-Kotlin.
 - **SPA / landing:** Astro, Tailwind, Three.js e motion design recheado de GSAP — estética no padrão Awwwards.
 
@@ -154,14 +156,14 @@ Núcleo (se a skill ainda não estiver em contexto): sem puffery/vocabulário IA
 
 # Trabalho Visual e Design
 
-Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend-design` (`references/material-and-space.md`, `references/token-architecture.md`). Cor e metáfora = dialeto do produto. Bronze/verdigris/ouro = só labs/m4doc (Travertino no m4core).
+Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend-design` (`references/material-and-space.md`, `references/token-architecture.md`). Cor e metáfora = dialeto do produto. Labs/m4doc 2.0 = monocromático quente (preto quente, marfim) + gravura/halftone + Fraunces nos momentos humanos e Oxanium na UI e nos números; cor só semântica. Não copiar essa linguagem pra projeto que não é labs.
 
 - Não altere componentes reais primeiro. Pra mudança de UI, layout ou texto que não seja trivial: crie mocks estáticos separados, publique-os e relate a URL. Pare e aguarde aprovação antes de implementar.
 - **Landings / SPA (Awwwards):** composição, motion (GSAP/Three.js) e estética forte — sem visual genérico de template.
 - **Apps de produto:** fidelidade ao DS do repo em cima da filosofia (ilhas/tom/papéis de token). Densidade, pouco enfeite, sem cards/pílulas decorativas se o projeto não usa.
 - Evite repaints contínuos de animações CSS (pulsação, brilho, desfoque, spinners). Sobrecarregam a GPU em telas de alta taxa de atualização.
 
-- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso. Copiar paleta Travertino pra projeto que não é labs.
+- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso. Copiar a linguagem do labs 2.0 (preto quente + gravura + Fraunces/Oxanium) pra projeto que não é labs.
 - **FAÇA:** Landing = teatro visual controlado. App produto = densidade + dialeto do projeto sobre a mesma filosofia de espaço.
 
 # Raio de Impacto (Blast radius)
@@ -196,8 +198,23 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 | `creating-pull-requests` | criar/abrir PR, publicar branch pra review |
 | `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
 | `find-skills` | “tem skill pra X?”, achar/instalar skill |
+| `emil-design-eng` | polish de UI, detalhe de componente, decisão de animação, “fazer parecer ótimo” |
+| `animate` | criar animação/transição do zero, dar vida a componente |
+| `review-animations` | revisar código de motion com régua alta (só por invocação) |
+| `improve-animations` | auditar o motion de um codebase inteiro e gerar plano priorizado (read-only) |
+| `find-animation-opportunities` | “o que dá pra animar aqui?” — propõe motion com valores, sem implementar |
+| `animation-vocabulary` | “como chama aquele efeito…” — nome exato de um efeito de motion |
+| `apple-design` | UI com gesto, spring, sheet/drag, material translúcido, tipografia estilo Apple na web |
+| `mobile-native` | app **web** que precisa parecer instalado no celular: PWA, 100vh, notch, tap, sheet |
+| `write-swift` | escrever/revisar/migrar Swift, concorrência Swift 6, data race, retain cycle |
+| `prototype` | várias versões reais de uma peça de UI com picker pra comparar (só por invocação) |
+| `pick-ui-library` | escolher lib pra uma tarefa de front (só por invocação) |
+| `ask-sonner` | usar/debugar Sonner (toasts em React) |
+| `animate-expo` | só se um dia houver React Native/Expo — mobile aqui é nativo |
 
-As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (React/Next/Motion) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
+As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
+
+As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar (reinstala por cópia, porque `~/.claude/skills` já é symlink pra cá): `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`.
 
 Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
 
