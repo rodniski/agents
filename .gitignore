@@ -19,3 +19,6 @@ incidents/
 # editor
 .idea/
 .vscode/
+
+# Claude Code: skills sincronizadas do claude.ai (gerenciado automaticamente)
+skills/synced/
