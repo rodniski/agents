@@ -134,15 +134,13 @@ Microsserviços em Go seguindo Clean Architecture, dentro de um monorepo com Tur
 
 **Fluxo:** browser/mobile → Connect (HTTP/JSON) no BFF → gRPC nos serviços de domínio. Contrato único via Protobuf (buf) gera clients Go, Web, Swift e Kotlin.
 
-# Unslop (sempre)
+# Unslop
 
 Vale em **todo** harness (Cursor, Claude, Codex) e em **toda** prosa pra mim: chat, explicação, docs, PR, copy. Não é só front.
 
-1. No início da conversa, leia `skills/unslop/SKILL.md` e siga o corpo.
-2. Antes de texto longo (docs, changelog, PR body, post), releia se precisar; self-audit “o que ainda grita IA?”.
-3. Código, diff e contrato técnico denso não se “unslopam” como prosa — mas a fala em volta deles, sim.
-
-Núcleo (se a skill ainda não estiver em contexto): sem puffery/vocabulário IA; sem bajulação nem frase de chatbot; voz ativa; palavra simples; fato concreto > feeling; sem emoji ornamental; bold raro; sentence case.
+- **Chat (sempre):** sem puffery/vocabulário IA; sem bajulação nem frase de chatbot; voz ativa; palavra simples; fato concreto > feeling; sem emoji ornamental; bold raro; sentence case.
+- **Texto longo** (docs, changelog, PR body, post): passa pela skill `unslop` — `cleanup` pra só apontar, `rewrite` pra reescrever.
+- Código, diff e contrato técnico denso não se “unslopam” como prosa — mas a fala em volta deles, sim.
 
 # Perguntas são Apenas Leitura (Read-Only)
 
@@ -156,7 +154,7 @@ Núcleo (se a skill ainda não estiver em contexto): sem puffery/vocabulário IA
 
 # Trabalho Visual e Design
 
-Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend-design` (`references/material-and-space.md`, `references/token-architecture.md`). Cor e metáfora = dialeto do produto. Labs/m4doc 2.0 = monocromático quente (preto quente, marfim) + gravura/halftone + Fraunces nos momentos humanos e Oxanium na UI e nos números; cor só semântica. Não copiar essa linguagem pra projeto que não é labs.
+Cor e metáfora = dialeto do produto. Labs/m4doc 2.0 = monocromático quente (preto quente, marfim) + gravura/halftone + Fraunces nos momentos humanos e Oxanium na UI e nos números; cor só semântica. Não copiar essa linguagem pra projeto que não é labs.
 
 - Não altere componentes reais primeiro. Pra mudança de UI, layout ou texto que não seja trivial: crie mocks estáticos separados, publique-os e relate a URL. Pare e aguarde aprovação antes de implementar.
 - **Landings / SPA (Awwwards):** composição, motion (GSAP/Three.js) e estética forte — sem visual genérico de template.
@@ -170,34 +168,25 @@ Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend
 
 - Nunca toque em produção, bancos ativos ou canais principais de build/preview a menos que explicitamente instruído. Se a tarefa for adjacente a qualquer um deles, nomeie o que você está prestes a tocar antes de alterar.
 
-# Pull Requests
-
-- Criar/abrir: skill `creating-pull-requests`
-- Monitorar/babysit: skill `babysit-pr`
-
 # Skills (auto)
 
-Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa pasta é só índice de symlinks: as minhas vivem em `own/`, as terceiras em `vendor/<fonte>/`. **Não espere o usuário digitar `/skill`.** Se o pedido casar com o gatilho, leia o `SKILL.md` correspondente **antes** de agir e siga o corpo.
-
-`unslop` é **always-on**: carrega em toda conversa (ver seção Unslop acima), não só por gatilho.
+Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa pasta é só índice de symlinks: as minhas vivem em `own/`, as terceiras em `vendor/[<fonte>/]`. **Não espere o usuário digitar `/skill`.** Se o pedido casar com o gatilho, leia o `SKILL.md` correspondente **antes** de agir e siga o corpo.
 
 | Skill | Gatilho (quando carregar) |
 |-------|---------------------------|
-| `unslop` | **sempre** — toda prosa ao Gui; também `/unslop`, tirar slop, “parece ChatGPT” |
-| `frontend-design` | UI, landing, redesign, tipografia, motion, imagery, anti-template |
+| `unslop` | revisar/reescrever texto longo antes de publicar, tirar slop, “parece ChatGPT” (`cleanup` / `rewrite` / `teach` / `mimic`) |
 | `design-taste-frontend` | landing, portfólio, site de marketing, redesign de página pública: dials, AI tells, pre-flight anti-slop |
 | `redesign-existing-projects` | melhorar/modernizar/auditar site ou app existente sem reescrever, tirar cara de IA |
 | `minimalist-ui` | só quando a direção já for editorial/minimalista tipo Notion ou Linear |
 | `high-end-visual-design` | só quando a direção pedida for premium/agência tipo Apple: vidro, double-bezel, spring motion |
 | `industrial-brutalist-ui` | só quando a direção pedida for brutalista/industrial: Swiss print, terminal tático |
-| `macos-design` | app macOS, native-feel, desktop Apple, traffic lights/sidebar |
-| `secure-by-design` | feature sensível, auth, cookie, API, upload, admin, PII/clínico, threat model pré-ship |
-| `secops-triage` | alerta, IOC, incidente, log suspeito, contain, MITRE |
 | `wayfinder` | mapa de projeto, épico na neblina, chartar decisões, frontier (`/wayfinder`) |
 | `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
-| `creating-pull-requests` | criar/abrir PR, publicar branch pra review |
-| `babysit-pr` | monitorar, acompanhar, watch, babysit PR |
-| `find-skills` | “tem skill pra X?”, achar/instalar skill |
+| `diagnosing-bugs` | bug difícil, “debug isso”, algo quebrado/lento: loop que reproduz antes de hipótese |
+| `tdd` | feature ou fix test-first, red-green, testes de integração |
+| `codebase-design` | desenhar/refatorar interface de módulo, onde fica o seam, deixar testável |
+| `writing-for-agents` | criar/editar skill, `AGENTS.md` ou `CLAUDE.md` |
+| `handoff` | passar a conversa pra outra sessão (só por invocação) |
 | `emil-design-eng` | polish de UI, detalhe de componente, decisão de animação, “fazer parecer ótimo” |
 | `animate` | criar animação/transição do zero, dar vida a componente |
 | `review-animations` | revisar código de motion com régua alta (só por invocação) |
@@ -212,9 +201,11 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `ask-sonner` | usar/debugar Sonner (toasts em React) |
 | `animate-expo` | só se um dia houver React Native/Expo — mobile aqui é nativo |
 
-As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
+As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto.
 
 As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
 
-Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
+As de engenharia (`grilling`, `wayfinder`, `diagnosing-bugs`, `tdd`, `codebase-design`, `writing-for-agents`, `handoff`) vêm de https://github.com/mattpocock/skills. `grilling` e `wayfinder` têm description/adaptação em pt-BR; as outras são cópia fiel. Elas citam `CONTEXT.md` e ADRs: use se o repo tiver, ignore se não.
+
+Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto.
 

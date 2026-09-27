@@ -11,11 +11,11 @@ mkdir -p "$SKILLS" "$CURSOR_RULES" "${HOME}/.claude" "${HOME}/.codex" "${HOME}/.
 test -f "$AGENTS" || { echo "missing $AGENTS"; exit 1; }
 
 # skills/ é só índice plano pros harnesses (eles não descem em subpasta).
-# Fonte real: own/<nome> (minhas) e vendor/<fonte>/<nome> (terceiras).
+# Fonte real: own/<nome> (minhas) e vendor/[<fonte>/]<nome> (terceiras).
 # Recria os symlinks relativos, poda os quebrados e avisa de pasta real
 # largada em skills/ (ex.: `npx skills add --copy`), que deve ir pra vendor/.
 find "$SKILLS" -maxdepth 1 -xtype l -delete
-for dir in "$CANON"/own/*/ "$CANON"/vendor/*/*/; do
+for dir in "$CANON"/own/*/ "$CANON"/vendor/*/ "$CANON"/vendor/*/*/; do
   test -f "${dir}SKILL.md" || continue
   rel="${dir#"$CANON"/}"
   ln -sfn "../${rel%/}" "${SKILLS}/$(basename "$dir")"

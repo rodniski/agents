@@ -4,54 +4,28 @@ description: >-
   Use quando o usuário pedir para grelhar, grilling, stress-test de ideia/plano,
   entrevistar a decisão, ou quiser fechar entendimento antes de agir — sem
   implementar ainda.
-metadata:
-  harness: [claude, cursor, codex]
-  platform: [darwin, linux]
 ---
 
-# Grilling
+Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
 
-Entrevista o humano até haver **entendimento compartilhado**. Árvore de design: cada decisão ramifica nas que dependem dela.
+Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
 
-Só **decisões** vão pro user. **Fatos** (filesystem, docs, API, código) você busca — ou manda subagente. Não pergunte o que dá pra olhar.
+Format a round like so:
 
-Não implemente, não abra PR, não “já codifica” até o user confirmar que a árvore fechou. Mapa de épico grande → skill `wayfinder` (que usa grilling nos tickets HITL).
+```
+❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
 
-## Rodadas + frontier
+➡️ <your recommended answer>
 
-**Frontier** = perguntas cujos pré-requisitos **já** estão fechados — dá pra perguntar *agora* sem chutar resposta pendente.
+---
 
-Numa rodada:
+❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
 
-1. Liste **toda** a frontier (não um fio só).
-2. Numere cada pergunta + dê sua **recomendação**.
-3. Espere as respostas.
-4. Recalcule a frontier e vá à próxima rodada.
-
-Pergunta que depende de outra ainda aberta **nesta** rodada → fica pra rodada seguinte.
-
-Subagente buscando fato = pré-requisito em aberto só pros ramos que dependem dele; o resto da frontier você pergunta agora.
-
-## Formato
-
-```text
-❓ **Q1** - **<título>**: <corpo; opções se couber>
-
-➡️ <sua recomendação>
+➡️ <your recommended answer>
 ```
 
-pt-BR. Direto. Sem preâmbulo de “ótimas perguntas”.
+Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one.
 
-## Fim
+Finding _facts_ is your job, never the user's. When a frontier question needs a fact from the environment (filesystem, tools, etc.), dispatch a sub-agent to find it; don't ask the user for anything you could look up yourself. Don't block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report; ask the rest of the frontier now. The _decisions_ are the user's: put each to them and wait.
 
-Frontier vazia = todo ramo visitado, nada assumido em silêncio. Declare o entendimento em 3–6 linhas e **pare**. Só age depois do “fechou / pode seguir”.
-
-## ❌ / ✅
-
-```text
-❌ Uma pergunta por vez sem mapa; perguntar fato que o repo responde;
-   responder no lugar do user; já sair implementando
-
-✅ Rodada com frontier inteira + recomendação; fatos via tool/subagente;
-   decisões com o humano; stop até confirmar
-```
+The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Do not act on it until the user confirms you have reached a shared understanding.
