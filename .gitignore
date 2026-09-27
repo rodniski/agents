@@ -20,5 +20,6 @@ incidents/
 .idea/
 .vscode/
 
-# Claude Code: skills sincronizadas do claude.ai (gerenciado automaticamente)
-skills/synced/
+# skills/ é gerado pelo bin/ensure-redirects (symlinks pra own/ e vendor/);
+# skills/synced/ vem do claude.ai
+skills/

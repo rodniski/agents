@@ -177,7 +177,7 @@ Taste estrutural em **todo** projeto: espaço/material/tokens da skill `frontend
 
 # Skills (auto)
 
-Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). **Não espere o usuário digitar `/skill`.** Se o pedido casar com o gatilho, leia o `SKILL.md` correspondente **antes** de agir e siga o corpo.
+Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa pasta é só índice de symlinks: as minhas vivem em `own/`, as terceiras em `vendor/<fonte>/`. **Não espere o usuário digitar `/skill`.** Se o pedido casar com o gatilho, leia o `SKILL.md` correspondente **antes** de agir e siga o corpo.
 
 `unslop` é **always-on**: carrega em toda conversa (ver seção Unslop acima), não só por gatilho.
 
@@ -214,7 +214,7 @@ Skills pessoais em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá
 
 As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto via `frontend-design`.
 
-As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar (reinstala por cópia, porque `~/.claude/skills` já é symlink pra cá): `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`.
+As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
 
 Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. Em dúvida entre `secure-by-design` e `secops-triage`: **antes do ship** = secure; **já aconteceu** = secops.
 

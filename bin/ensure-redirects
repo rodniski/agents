@@ -10,6 +10,22 @@ CURSOR_RULE="${CURSOR_RULES}/gui-agents.mdc"
 mkdir -p "$SKILLS" "$CURSOR_RULES" "${HOME}/.claude" "${HOME}/.codex" "${HOME}/.cursor"
 test -f "$AGENTS" || { echo "missing $AGENTS"; exit 1; }
 
+# skills/ é só índice plano pros harnesses (eles não descem em subpasta).
+# Fonte real: own/<nome> (minhas) e vendor/<fonte>/<nome> (terceiras).
+# Recria os symlinks relativos, poda os quebrados e avisa de pasta real
+# largada em skills/ (ex.: `npx skills add --copy`), que deve ir pra vendor/.
+find "$SKILLS" -maxdepth 1 -xtype l -delete
+for dir in "$CANON"/own/*/ "$CANON"/vendor/*/*/; do
+  test -f "${dir}SKILL.md" || continue
+  rel="${dir#"$CANON"/}"
+  ln -sfn "../${rel%/}" "${SKILLS}/$(basename "$dir")"
+done
+for dir in "$SKILLS"/*/; do
+  name="$(basename "$dir")"
+  [[ -L "${dir%/}" || "$name" == synced ]] && continue
+  echo "aviso: skills/${name} é pasta real; mova pra own/ ou vendor/<fonte>/"
+done
+
 ln -sfn "$SKILLS" "${HOME}/.claude/skills"
 ln -sfn "$SKILLS" "${HOME}/.cursor/skills"
 ln -sfn "$AGENTS" "${HOME}/.claude/CLAUDE.md"
