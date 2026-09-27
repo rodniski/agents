@@ -7,7 +7,7 @@ Fonte canônica. Cursor, Claude Code e Codex redirecionam pra cá.
 ```
 ~/.agents/
   AGENTS.md          # preferências universais
-  own/               # skills minhas (vazio por enquanto)
+  own/               # skills minhas
   vendor/<fonte>/    # skills terceiras (taste-skill, emilkowalski, mattpocock) ou direto (unslop)
   skills/            # gerado: symlinks planos pra own/ e vendor/ (harness não desce em subpasta)
   bin/ensure-redirects

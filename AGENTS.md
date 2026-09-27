@@ -180,12 +180,14 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `minimalist-ui` | só quando a direção já for editorial/minimalista tipo Notion ou Linear |
 | `high-end-visual-design` | só quando a direção pedida for premium/agência tipo Apple: vidro, double-bezel, spring motion |
 | `industrial-brutalist-ui` | só quando a direção pedida for brutalista/industrial: Swiss print, terminal tático |
+| `ui-ux-pro-max` | cardápio pra divergir: catálogo de estilos, paletas e fontes + regras de UX/a11y (só por invocação) |
 | `wayfinder` | mapa de projeto, épico na neblina, chartar decisões, frontier (`/wayfinder`) |
 | `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
 | `diagnosing-bugs` | bug difícil, “debug isso”, algo quebrado/lento: loop que reproduz antes de hipótese |
 | `tdd` | feature ou fix test-first, red-green, testes de integração |
 | `codebase-design` | desenhar/refatorar interface de módulo, onde fica o seam, deixar testável |
 | `writing-for-agents` | criar/editar skill, `AGENTS.md` ou `CLAUDE.md` |
+| `secure-by-design` | feature sensível, auth, cookie, API, upload, admin, PII/clínico, threat model pré-ship |
 | `handoff` | passar a conversa pra outra sessão (só por invocação) |
 | `emil-design-eng` | polish de UI, detalhe de componente, decisão de animação, “fazer parecer ótimo” |
 | `animate` | criar animação/transição do zero, dar vida a componente |
@@ -202,6 +204,8 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `animate-expo` | só se um dia houver React Native/Expo — mobile aqui é nativo |
 
 As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto.
+
+`ui-ux-pro-max` (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) é cardápio, não decisor: tira 3 estilos distantes entre si do catálogo, justifica cada um contra o brief e monta as três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca como direção final (é o clichê do nicho). As regras de UX (`references/quick-reference.md`, `references/pro-rules.md`) valem como checklist de pré-entrega em app de produto. Caminho do script ajustado pra `~/.agents/skills/`; `disable-model-invocation` adicionado.
 
 As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
 
