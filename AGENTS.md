@@ -180,7 +180,7 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `minimalist-ui` | só quando a direção já for editorial/minimalista tipo Notion ou Linear |
 | `high-end-visual-design` | só quando a direção pedida for premium/agência tipo Apple: vidro, double-bezel, spring motion |
 | `industrial-brutalist-ui` | só quando a direção pedida for brutalista/industrial: Swiss print, terminal tático |
-| `ui-ux-pro-max` | cardápio pra divergir: catálogo de estilos, paletas e fontes + regras de UX/a11y (só por invocação) |
+| `ui-ux-pro-max` | cardápio pra divergir: catálogo de estilos, paletas e fontes + regras de UX/a11y |
 | `wayfinder` | mapa de projeto, épico na neblina, chartar decisões, frontier (`/wayfinder`) |
 | `grilling` | grelhar ideia/plano, stress-test, fechar entendimento antes de agir |
 | `diagnosing-bugs` | bug difícil, “debug isso”, algo quebrado/lento: loop que reproduz antes de hipótese |
@@ -202,12 +202,21 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `pick-ui-library` | escolher lib pra uma tarefa de front (só por invocação) |
 | `ask-sonner` | usar/debugar Sonner (toasts em React) |
 | `animate-expo` | só se um dia houver React Native/Expo — mobile aqui é nativo |
+| `gsap-core` / `gsap-timeline` / `gsap-scrolltrigger` / `gsap-plugins` / `gsap-performance` / `gsap-frameworks` | qualquer código GSAP; `gsap-frameworks` pra Svelte/SvelteKit/Astro |
+| `svelte-code-writer` | criar/editar/analisar `.svelte` ou `.svelte.ts` |
+| `break` | renderizar um componente em todos os estados e estressar antes de entregar |
+| `svg-animation` | stroke draw-on, morph, motion path, ícone/logo animado |
+| `page-transition-animation` | transição de rota/página, View Transitions API |
+| `accessible-animation` | reduced-motion em GSAP/Lenis/CSS, motion acessível |
+| `gsap-scrolltrigger-storytelling` / `masked-reveal` / `progressive-blur` | técnicas de landing: sticky storytelling, reveal por máscara, blur progressivo |
 
 As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto.
 
-`ui-ux-pro-max` (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) é cardápio, não decisor: tira 3 estilos distantes entre si do catálogo, justifica cada um contra o brief e monta as três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca como direção final (é o clichê do nicho). As regras de UX (`references/quick-reference.md`, `references/pro-rules.md`) valem como checklist de pré-entrega em app de produto. Caminho do script ajustado pra `~/.agents/skills/`; `disable-model-invocation` adicionado.
+`ui-ux-pro-max` (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) é cardápio, não decisor: tira 3 estilos distantes entre si do catálogo, justifica cada um contra o brief e monta as três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca como direção final (é o clichê do nicho). As regras de UX (`references/quick-reference.md`, `references/pro-rules.md`) valem como checklist de pré-entrega em app de produto. Caminho do script ajustado pra `~/.agents/skills/`.
 
 As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
+
+Motion extra: `gsap-*` são as oficiais da GreenSock (https://github.com/greensock/gsap-skills); `svg-animation`, `page-transition-animation` e `accessible-animation` vêm de https://github.com/iart-ai/web-animation-skills; `gsap-scrolltrigger-storytelling`, `masked-reveal` e `progressive-blur` de https://github.com/MengTo/Skills (sem as pastas `demo/`). GSAP é o motion de landing; Emil segue valendo pro princípio (curva, duração, quando não animar). `svelte-code-writer` é a oficial do Svelte (https://github.com/sveltejs/ai-tools) e roda `npx @sveltejs/mcp`. `break` vem de https://github.com/jakubkrehel/skills (upstream era só por invocação; aqui é automática).
 
 As de engenharia (`grilling`, `wayfinder`, `diagnosing-bugs`, `tdd`, `codebase-design`, `writing-for-agents`, `handoff`) vêm de https://github.com/mattpocock/skills. `grilling` e `wayfinder` têm description/adaptação em pt-BR; as outras são cópia fiel. Elas citam `CONTEXT.md` e ADRs: use se o repo tiver, ignore se não.
 
