@@ -23,6 +23,7 @@ A minha maior vontade é ter isso dentro da linguagem em que eu passo os meus pr
 - Testes são maravilhosos — mas focados, não slop. Smoke interminável e regressão só pra “cobrir deleção de feature” são bem piores do que poucos testes certos.
 - Comentários são ótimos pra clarificar funcionalidades e como o código é utilizado. Não seja chato documentando linha por linha, mas me dê o contexto geral de cada bloco de código pra eu não ficar perdido.
 - Mantenha os comentários atualizados. Conforme for fazendo alterações, mantenha comentário e comportamento em sync.
+- Regra do repo vence esta. O m4core **proíbe comentário** em código, manifest e config (`CLAUDE.md` da raiz): lá o motivo vai pra commit, ADR ou `obsidian/wiki/`, e comentário existente sai junto com a mudança.
 
 ## O que fazer e o que não fazer na prática
 
@@ -48,22 +49,22 @@ A ladder vale — mas **estética não é degrau descartável**. Default nativo 
 
 - **NÃO FAÇA:** Over-engineer (lib + wrapper + debate de timezone) **nem** empurrar nativo feio só porque “é o padrão”.
 
-  ```svelte
-  <!-- errado: lib pesada pra um campo -->
-  <Flatpickr bind:value={date} locale="pt" />
+  ```tsx
+  // errado: lib pesada pra um campo
+  <Flatpickr value={date} onChange={setDate} options={{ locale: "pt" }} />
 
-  <!-- também errado: cinza de sistema numa UI clássica/Awwwards -->
-  <input type="date" bind:value={date} />
+  // também errado: cinza de sistema numa UI clássica/Awwwards
+  <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
   ```
 
-- **FAÇA:** Menor solução que **funciona e fica linda** no contexto. Reuse nativo/bits-ui do design system quando a estética aguenta; senão, componente próprio mínimo.
+- **FAÇA:** Menor solução que **funciona e fica linda** no contexto. Reuse o primitivo do design system (shadcn/Base UI) quando a estética aguenta; senão, componente próprio mínimo.
 
-  ```svelte
-  <!-- produto utilitário: design system já no projeto -->
-  <DateField bind:value={date} />
+  ```tsx
+  // produto utilitário: primitivo do design system já no projeto
+  <DatePicker value={date} onValueChange={setDate} />
 
-  <!-- landing/marca: próprio, alinhado à tipografia/motion — sem lib extra -->
-  <BrandDateField bind:value={date} />
+  // landing/marca: próprio, alinhado à tipografia/motion — sem lib extra
+  <BrandDateField value={date} onValueChange={setDate} />
   ```
 
 ### TypeScript
@@ -91,6 +92,7 @@ A ladder vale — mas **estética não é degrau descartável**. Default nativo 
 - **NÃO FAÇA:** Suíte teatro — 40 smokes que só abrem página e 0 assert no comportamento que quebrou.
 
 - **FAÇA:** Um teste pequeno que falha se a regra de negócio quebrar (assert no resultado, não no HTML cosmético).
+- No labs não há runner de teste (e não se instala um): regra não trivial ganha um `<nome>.check.ts` ao lado, com `node:assert/strict`, rodando com `bun`.
 
 ### Backend (BFF vs domínio)
 
@@ -111,26 +113,30 @@ A ladder vale — mas **estética não é degrau descartável**. Default nativo 
 
 ### Escolha de stack
 
-- **NÃO FAÇA:** Subir SvelteKit + BFF Go pra uma landing de marketing.
-- **FAÇA:** Landing/SPA → Astro + Tailwind + GSAP/Three.js. Produto labs → SvelteKit. App mobile → SwiftUI / Kotlin+Material.
+- **NÃO FAÇA:** Subir TanStack Start + BFF Go pra uma landing de marketing.
+- **FAÇA:** Landing/SPA → Astro + Tailwind + GSAP/Three.js. Produto (labs e projeto novo) → React + TanStack Start. App mobile → SwiftUI / Kotlin+Material.
 
 
 ## Stacks
 
 - **Web (default pra projeto novo/pessoal):** TanStack Start + React, TypeScript, Vite, Tailwind 4, Bun. Família TanStack primeiro (Query, Router, Form, Table, Virtual, Store/DB) antes de qualquer lib avulsa.
-- **Web (labs / m4core):** SvelteKit 2, Svelte 5, TypeScript, Vite, Tailwind 4, Bun, TanStack Svelte Query, bits-ui, Connect-Web e Protobuf (buf). Repo existente segue a stack dele.
-- **Motion:** GSAP (timeline, ScrollTrigger, SVG, set pieces), Motion (motion.dev — ex-Framer Motion: interação de UI, springs, layout, gestos) e Anime.js v4 (efeito pontual e leve). Um papel por lib por projeto; não misturar duas no mesmo componente.
+- **Web (m4core):** repo existente segue a stack dele, e cada app tem a sua.
+  - `apps/web/labs`: React 19 + TanStack Start/Router, Vite, Tailwind 4, Bun, shadcn `base-nova` (Base UI, não Radix), ícones Tabler (nunca `lucide-react`), `@connectrpc/connect-query` sobre TanStack Query. Contrato em `apps/web/labs/AGENTS.md`.
+  - `apps/web/food`: SvelteKit legado, provavelmente vai ser refeito. Não investir nele sem pedido.
+  - `apps/web/painel` e `institucional`: React + Vite. `apps/web/reports`: Astro.
+- **Motion:** GSAP (timeline, ScrollTrigger, SVG, set pieces), Motion (motion.dev — ex-Framer Motion: interação de UI, springs, layout, gestos) e Anime.js v4 (efeito pontual e leve). Um papel por lib; não misturar duas no mesmo componente. No labs: Motion na interação de UI, GSAP só em cena/set piece, e tudo sai dos tokens M3 de `src/shared/motion/` (sem `cubic-bezier` avulso).
 - **Mobile:** estritamente nativo. iOS com Swift + SwiftUI; Android com Kotlin + Material Design (M3 Expressive: `MotionScheme`, springs spatial/effects). Mesmo contrato proto via Connect-Swift e Connect-Kotlin.
 - **SPA / landing:** Astro, Tailwind, Three.js e motion design recheado de GSAP — estética no padrão Awwwards.
 
 ## Backend
 
-Microsserviços em Go seguindo Clean Architecture, dentro de um monorepo com Turborepo e Bun.
+Microsserviços em Go seguindo Clean Architecture, dentro de um monorepo com Turborepo e Bun (m4core).
 
-- **BFF por produto** (`backend/bff/*`): borda única pra web e mobile. Só orquestra — zero lógica de domínio. Stack típica: Go, chi, Connect (connect-go), JWT RS256/JWKS com cookies httpOnly no web.
-- **Domínio** (`backend/domain/*`): lógica de negócio por produto. Comunicação interna estritamente via gRPC. Serviços não se chamam entre si — quem orquestra é o BFF.
-- **Platform** (`backend/platform/*`): helix, janus, hermes e afins. Só o helix fala com Tasy/Oracle. O frontend nunca fala direto com legado.
-- **Workers / observability:** jobs assíncronos e probes de saúde.
+- **BFF por produto** (`backend/bff/{labs,infusion,painel}`): borda única pra web e mobile. Só orquestra — zero lógica de domínio. Stack: Go, chi, Connect (connect-go), `golang-jwt` com cookies httpOnly no web. Identidade sempre da claim: request não manda `cd_medico`/`cd_usuario` como fonte de verdade.
+- **Domínio** (`backend/domain/*`): lógica de negócio por produto (`m4labs/{galen,iris,m4admin,m4doc}`, `m4doc`, `m4dash`, `infusion`). Comunicação interna estritamente via gRPC. Serviços não se chamam entre si — quem orquestra é o BFF.
+- **Platform** (`backend/platform/*`): `helix` (único que fala com Tasy/Oracle) e `identidade` (auth). O frontend nunca fala direto com legado.
+- **Workers / observability:** `backend/workers/*` (genesis, bots) e `backend/observability/m4probe`.
+- Codinomes, portas, branches (par de PRs `dev` + `main`), Terraform e Kubernetes: `AGENTS.md` do m4core e a wiki em `obsidian/wiki/`. Não duplicar aqui.
 
 **Fluxo:** browser/mobile → Connect (HTTP/JSON) no BFF → gRPC nos serviços de domínio. Contrato único via Protobuf (buf) gera clients Go, Web, Swift e Kotlin.
 
@@ -154,14 +160,14 @@ Vale em **todo** harness (Cursor, Claude, Codex) e em **toda** prosa pra mim: ch
 
 # Trabalho Visual e Design
 
-Cor e metáfora = dialeto do produto. Labs/m4doc 2.0 = monocromático quente (preto quente, marfim) + gravura/halftone + Fraunces nos momentos humanos e Oxanium na UI e nos números; cor só semântica. Não copiar essa linguagem pra projeto que não é labs.
+Cor e metáfora = dialeto do produto. O labs usa o **Travertino**: fundo branco, bronze no `primary` (ação e foco), verdigris no `sidebar-accent`, rampa de chart teal; Fraunces `font-wonky` em título (title case, nunca uppercase), Outfit no corpo, Oxanium só em dado pontual e CTA; elevação por tom, sem tier de sombra, borda como divisor. Só token canônico do shadcn, sem cor literal em `.tsx`. Fonte de verdade: skill `m4core-labs-ui-travertino` e `apps/web/labs/src/styles.css` — ler antes de escrever cor. Não copiar essa linguagem pra projeto que não é labs.
 
 - Não altere componentes reais primeiro. Pra mudança de UI, layout ou texto que não seja trivial: crie mocks estáticos separados, publique-os e relate a URL. Pare e aguarde aprovação antes de implementar.
 - **Landings / SPA (Awwwards):** composição, motion (GSAP/Three.js) e estética forte — sem visual genérico de template.
 - **Apps de produto:** fidelidade ao DS do repo em cima da filosofia (ilhas/tom/papéis de token). Densidade, pouco enfeite, sem cards/pílulas decorativas se o projeto não usa.
 - Evite repaints contínuos de animações CSS (pulsação, brilho, desfoque, spinners). Sobrecarregam a GPU em telas de alta taxa de atualização.
 
-- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso. Copiar a linguagem do labs 2.0 (preto quente + gravura + Fraunces/Oxanium) pra projeto que não é labs.
+- **NÃO FAÇA:** Empurrar estética de landing (hero full-bleed + Three.js) num app interno denso — ou o inverso. Copiar o Travertino (bronze + verdigris + Fraunces/Oxanium) pra projeto que não é labs.
 - **FAÇA:** Landing = teatro visual controlado. App produto = densidade + dialeto do projeto sobre a mesma filosofia de espaço.
 
 # Raio de Impacto (Blast radius)
@@ -202,23 +208,21 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `pick-ui-library` | escolher lib pra uma tarefa de front (só por invocação) |
 | `ask-sonner` | usar/debugar Sonner (toasts em React) |
 | `animate-expo` | só se um dia houver React Native/Expo — mobile aqui é nativo |
-| `gsap-core` / `gsap-timeline` / `gsap-scrolltrigger` / `gsap-plugins` / `gsap-performance` / `gsap-frameworks` | qualquer código GSAP; `gsap-frameworks` pra Svelte/SvelteKit/Astro |
-| `svelte-code-writer` | criar/editar/analisar `.svelte` ou `.svelte.ts` |
+| `gsap-core` / `gsap-timeline` / `gsap-scrolltrigger` / `gsap-plugins` / `gsap-performance` / `gsap-react` / `gsap-frameworks` | qualquer código GSAP; `gsap-react` no labs e em React, `gsap-frameworks` em Astro |
 | `break` | renderizar um componente em todos os estados e estressar antes de entregar |
 | `svg-animation` | stroke draw-on, morph, motion path, ícone/logo animado |
 | `page-transition-animation` | transição de rota/página, View Transitions API |
 | `accessible-animation` | reduced-motion em GSAP/Lenis/CSS, motion acessível |
-| `gsap-scrolltrigger-storytelling` / `masked-reveal` / `progressive-blur` | técnicas de landing: sticky storytelling, reveal por máscara, blur progressivo |
 
 As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto.
 
 `ui-ux-pro-max` (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) é cardápio, não decisor: tira 3 estilos distantes entre si do catálogo, justifica cada um contra o brief e monta as três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca como direção final (é o clichê do nicho). As regras de UX (`references/quick-reference.md`, `references/pro-rules.md`) valem como checklist de pré-entrega em app de produto. Caminho do script ajustado pra `~/.agents/skills/`.
 
-As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; em projeto Svelte ou com GSAP/Anime.js, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
+As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, a mesma stack do labs; com GSAP/Anime.js ou fora de React, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
 
-Motion extra: `gsap-*` são as oficiais da GreenSock (https://github.com/greensock/gsap-skills); `svg-animation`, `page-transition-animation` e `accessible-animation` vêm de https://github.com/iart-ai/web-animation-skills; `gsap-scrolltrigger-storytelling`, `masked-reveal` e `progressive-blur` de https://github.com/MengTo/Skills (sem as pastas `demo/`). GSAP é o motion de landing; Emil segue valendo pro princípio (curva, duração, quando não animar). `svelte-code-writer` é a oficial do Svelte (https://github.com/sveltejs/ai-tools) e roda `npx @sveltejs/mcp`. `break` vem de https://github.com/jakubkrehel/skills (upstream era só por invocação; aqui é automática).
+Motion extra: `gsap-*` são as oficiais da GreenSock (https://github.com/greensock/gsap-skills); `svg-animation`, `page-transition-animation` e `accessible-animation` vêm de https://github.com/iart-ai/web-animation-skills. GSAP é o motion de landing e de cena; Emil segue valendo pro princípio (curva, duração, quando não animar). `break` vem de https://github.com/jakubkrehel/skills (upstream era só por invocação; aqui é automática).
 
 As de engenharia (`grilling`, `wayfinder`, `diagnosing-bugs`, `tdd`, `codebase-design`, `writing-for-agents`, `handoff`) vêm de https://github.com/mattpocock/skills. `grilling` e `wayfinder` têm description/adaptação em pt-BR; as outras são cópia fiel. Elas citam `CONTEXT.md` e ADRs: use se o repo tiver, ignore se não.
 
-Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto.
+Repo `AGENTS.md` / skills `m4core-*` vencem em domínio de produto. No m4core, `.agents/skills/m4core-*` e `apps/web/labs/AGENTS.md` são obrigatórios antes de tocar no escopo deles.
 
