@@ -23,3 +23,9 @@ incidents/
 # skills/ é gerado pelo bin/ensure-redirects (symlinks pra own/ e vendor/);
 # skills/synced/ vem do claude.ai
 skills/
+
+# skills minhas com repo próprio (clonadas pelo bin/ensure-redirects)
+own/humanizing
+
+# estado local do `npx skills`
+.skill-lock.json

@@ -10,11 +10,20 @@ CURSOR_RULE="${CURSOR_RULES}/gui-agents.mdc"
 mkdir -p "$SKILLS" "$CURSOR_RULES" "${HOME}/.claude" "${HOME}/.codex" "${HOME}/.cursor"
 test -f "$AGENTS" || { echo "missing $AGENTS"; exit 1; }
 
+# Skills minhas que vivem em repo próprio: clona em own/ se faltar.
+# Localmente own/<nome> pode ser symlink pro checkout de desenvolvimento.
+for repo in rodniski/humanizing; do
+  dest="${CANON}/own/${repo#*/}"
+  [[ -e "$dest" ]] || git clone -q "https://github.com/${repo}.git" "$dest"
+done
+
 # skills/ é só índice plano pros harnesses (eles não descem em subpasta).
 # Fonte real: own/<nome> (minhas) e vendor/[<fonte>/]<nome> (terceiras).
 # Recria os symlinks relativos, poda os quebrados e avisa de pasta real
 # largada em skills/ (ex.: `npx skills add --copy`), que deve ir pra vendor/.
-find "$SKILLS" -maxdepth 1 -xtype l -delete
+for link in "$SKILLS"/*; do
+  if [[ -L "$link" && ! -e "$link" ]]; then rm "$link"; fi
+done
 for dir in "$CANON"/own/*/ "$CANON"/vendor/*/ "$CANON"/vendor/*/*/; do
   test -f "${dir}SKILL.md" || continue
   rel="${dir#"$CANON"/}"

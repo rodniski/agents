@@ -140,7 +140,8 @@ Microsserviços em Go seguindo Clean Architecture, em monorepo com Turborepo e B
 Vale em **todo** harness (Cursor, Claude, Codex) e em **toda** prosa pra mim: chat, explicação, docs, PR, copy. Não é só front.
 
 - **Chat (sempre):** sem puffery/vocabulário IA; sem bajulação nem frase de chatbot; voz ativa; palavra simples; fato concreto > feeling; sem emoji ornamental; bold raro; sentence case.
-- **Texto longo** (docs, changelog, PR body, post): passa pela skill `unslop` — `cleanup` pra só apontar, `rewrite` pra reescrever.
+- **Estrutura (sempre, skill `humanizing`):** não fechar com a moral; nomear em vez de aludir (arquivo, linha, número, nome); dizer direto em vez de enfeitar; conclusão primeiro, caminho depois; dizer o que ficou aberto ou não verificado; parte do tamanho do peso, sem simetria de enfeite; escrever pra quem lê. Sem trocar um tell por outro (seco forçado, casual fingido, dúvida inventada).
+- **Texto longo** (docs, changelog, PR body, post, README): leia o `SKILL.md` da `humanizing` antes de escrever e passe pela `unslop` depois — `cleanup` pra só apontar, `rewrite` pra reescrever.
 - Código, diff e contrato técnico denso não se “unslopam” como prosa — mas a fala em volta deles, sim.
 
 # Perguntas são Apenas Leitura (Read-Only)
@@ -176,6 +177,7 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | Skill | Gatilho (quando carregar) |
 |-------|---------------------------|
 | `unslop` | revisar/reescrever texto longo antes de publicar, tirar slop, “parece ChatGPT” (`cleanup` / `rewrite` / `teach` / `mimic`) |
+| `humanizing` | camada de estrutura depois do `unslop`: moral no fim, ordem cronológica, fechamento arrumado, alusão vaga (`review` / `rewrite` / `draft`). Repo: `~/Documents/GitHub/humanizing` |
 | `design-taste-frontend` | landing, portfólio, site de marketing, redesign de página pública: dials, AI tells, pre-flight anti-slop |
 | `redesign-existing-projects` | melhorar/modernizar/auditar site ou app existente sem reescrever, tirar cara de IA |
 | `minimalist-ui` | só quando a direção já for editorial/minimalista tipo Notion ou Linear |
@@ -209,13 +211,10 @@ Skills em `~/.agents/skills/` (Claude e Cursor já redirecionam pra cá). Essa p
 | `page-transition-animation` | transição de rota/página, View Transitions API |
 | `accessible-animation` | reduced-motion em GSAP/Lenis/CSS, motion acessível |
 
-As de taste (`design-taste-frontend`, `redesign-existing-projects` e os presets de direção `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`) vêm de https://github.com/Leonxlnx/taste-skill e são camada de auditoria/anti-slop: onde prescrevem stack (Next, lib de UI) ou paleta, vencem as **Stacks** deste arquivo e o dialeto/DS do projeto.
+Regras de uso que as skills não dizem sozinhas (origem e atualização ficam no `README.md`):
 
-`ui-ux-pro-max` (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) é cardápio, não decisor: tira 3 estilos distantes entre si do catálogo, justifica cada um contra o brief e monta as três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca como direção final (é o clichê do nicho). As regras de UX (`references/quick-reference.md`, `references/pro-rules.md`) valem como checklist de pré-entrega em app de produto. Caminho do script ajustado pra `~/.agents/skills/`.
-
-As de motion/design engineering (`emil-design-eng`, `animate`, `*-animations`, `animation-vocabulary`, `apple-design`, `mobile-native`, `write-swift`, `prototype`, `pick-ui-library`, `ask-sonner`, `animate-expo`) vêm de https://github.com/emilkowalski/skills. Os exemplos usam Motion (ex-Framer Motion) e React, que já estão nas Stacks; com GSAP/Anime.js ou fora de React, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` convive com `high-end-visual-design`: o primeiro é física e gesto, o segundo é direção visual. Atualizar: `npx skills add emilkowalski/skills -g -s '*' -a claude-code --copy -y`, mover as pastas que caírem em `skills/` pra `vendor/emilkowalski/` e rodar `bin/ensure-redirects` (ele avisa se sobrou pasta real em `skills/`).
-
-Motion extra: `gsap-*` são as oficiais da GreenSock (https://github.com/greensock/gsap-skills); `svg-animation`, `page-transition-animation` e `accessible-animation` vêm de https://github.com/iart-ai/web-animation-skills. GSAP é o motion de landing e de cena; Emil segue valendo pro princípio (curva, duração, quando não animar). `break` vem de https://github.com/jakubkrehel/skills (upstream era só por invocação; aqui é automática).
-
-As de engenharia (`grilling`, `wayfinder`, `diagnosing-bugs`, `tdd`, `codebase-design`, `writing-for-agents`, `handoff`) vêm de https://github.com/mattpocock/skills. `grilling` e `wayfinder` têm description/adaptação em pt-BR; as outras são cópia fiel. Elas citam `CONTEXT.md` e ADRs: use se o repo tiver, ignore se não.
-
+- **Taste** (`design-taste-frontend`, `redesign-existing-projects`, `minimalist-ui`, `high-end-visual-design`, `industrial-brutalist-ui`): camada de auditoria anti-slop. Onde prescrevem stack (Next, lib de UI) ou paleta, as **Stacks** deste arquivo e o DS do projeto vencem.
+- **`ui-ux-pro-max`** é cardápio, não decisor: tira 3 estilos distantes do catálogo, justifica cada um contra o brief e monta os três com `prototype` pra eu escolher. Nunca aceita o primeiro resultado da busca (é o clichê do nicho). `references/quick-reference.md` e `references/pro-rules.md` valem como checklist de pré-entrega em app de produto.
+- **Emil** (`emil-design-eng`, `animate`, `*-animations`, `apple-design`…): os exemplos usam Motion e React; com GSAP/Anime.js ou fora de React, aplica o princípio (curva, duração, interrupção, quando não animar) e traduz a API. `apple-design` é física e gesto; `high-end-visual-design` é direção visual.
+- **GSAP** é o motion de landing e de cena; Emil segue valendo pro princípio. `break` é automática aqui (no upstream era só por invocação).
+- **Engenharia** (`grilling`, `wayfinder`, `tdd`…): citam `CONTEXT.md` e ADRs; use se o repo tiver, ignore se não.

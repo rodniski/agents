@@ -1,93 +1,81 @@
-# Agent kit pessoal
+# agents
 
-Fonte canônica. Cursor, Claude Code e Codex redirecionam pra cá.
+My agent setup: one instruction file and 40 skills, shared by Claude Code, Codex and Cursor from a single folder. Edit once, every harness picks it up in the next session.
 
-**Repo:** https://github.com/rodniski/agents (private)
+The instructions ([`AGENTS.md`](AGENTS.md)) are in Portuguese; they are written for me and the agents I work with. The structure and the scripts are the part worth copying.
+
+## How it loads
+
+Nothing is copied. Each harness reads the same files through symlinks that [`bin/ensure-redirects`](bin/ensure-redirects) creates:
+
+| Harness | Instructions | Skills |
+|---|---|---|
+| Claude Code | `~/.claude/CLAUDE.md` → `AGENTS.md` | `~/.claude/skills` → `skills/` |
+| Codex | `~/.codex/AGENTS.md` → `AGENTS.md` | — |
+| Cursor | `~/.cursor/rules/gui-agents.mdc` (`alwaysApply`, `@`-includes `AGENTS.md`) | `~/.cursor/skills` → `skills/` |
+
+Cursor has no global `AGENTS.md`, so the script writes a one-file rule that points at it.
+
+## Layout
 
 ```
 ~/.agents/
-  AGENTS.md          # preferências universais
-  own/               # skills minhas
-  vendor/<fonte>/    # skills terceiras (taste-skill, emilkowalski, mattpocock) ou direto (unslop)
-  skills/            # gerado: symlinks planos pra own/ e vendor/ (harness não desce em subpasta)
+  AGENTS.md            instructions, always on
+  own/<skill>/         skills I wrote
+  vendor/<source>/     third-party skills, copied in, with their LICENSE
+  skills/              generated: flat symlinks to own/ and vendor/ (harnesses don't recurse)
   bin/ensure-redirects
-  README.md
 ```
 
-## Nova máquina
+`skills/` is gitignored and rebuilt on every run. Harnesses only look one level deep, so the script flattens `own/` and `vendor/<source>/` into it and warns if a real folder lands there, which is what `npx skills add --copy` does.
+
+## New machine
 
 ```bash
-git clone git@github.com:rodniski/agents.git ~/.agents
-# ou: gh repo clone rodniski/agents ~/.agents
+gh repo clone rodniski/agents ~/.agents
 ~/.agents/bin/ensure-redirects
 ```
 
-## Garantir carga em toda conversa
+The script also clones the skills that live in their own repos (today, [humanizing](https://github.com/rodniski/humanizing)) into `own/`. Run it again after adding or removing a skill.
+
+## Skills
+
+| Source | Skills | License |
+|---|---|---|
+| own | [humanizing](https://github.com/rodniski/humanizing), [secure-by-design](own/secure-by-design/SKILL.md) | MIT |
+| [emilkowalski/skills](https://github.com/emilkowalski/skills) | 13: design engineering and motion (`emil-design-eng`, `animate`, `apple-design`, `write-swift`…) | MIT |
+| [greensock/gsap-skills](https://github.com/greensock/gsap-skills) | 7: `gsap-core`, `gsap-timeline`, `gsap-scrolltrigger`… | MIT |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | 7: `grilling`, `wayfinder`, `tdd`, `diagnosing-bugs`, `codebase-design`, `writing-for-agents`, `handoff` | MIT |
+| [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | 5: `design-taste-frontend`, `redesign-existing-projects` and three direction presets | MIT |
+| [iart-ai/web-animation-skills](https://github.com/iart-ai/web-animation-skills) | 3: `svg-animation`, `page-transition-animation`, `accessible-animation` | MIT |
+| [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | `ui-ux-pro-max` | MIT |
+| [jakubkrehel/skills](https://github.com/jakubkrehel/skills) | `break` | MIT |
+| [theclaymethod/unslop](https://github.com/theclaymethod/unslop) | `unslop` | MIT, per its `SKILL.md` |
+
+Local changes to vendored skills: the five taste-skill skills, `grilling` and `wayfinder` have Portuguese descriptions; `break` is model-invoked instead of invocation-only; `ui-ux-pro-max` has its script path pointed at `~/.agents/skills/`. The rest are upstream copies as of the day they were added, so they may lag behind.
+
+`AGENTS.md` lists every skill with its trigger and adds the usage rules the skills don't carry themselves, such as which one wins when two disagree.
+
+## Adding or updating a skill
+
+Third-party:
 
 ```bash
+npx skills add <owner>/<repo> -g -s '<skill>' -a claude-code --copy -y
+mv ~/.agents/skills/<skill> ~/.agents/vendor/<source>/
 ~/.agents/bin/ensure-redirects
 ```
 
-| Tool | Como carrega |
-|------|----------------|
-| **Claude Code** | `~/.claude/CLAUDE.md` → `~/.agents/AGENTS.md` (symlink; user-level always-on) |
-| **Codex** | `~/.codex/AGENTS.md` → `~/.agents/AGENTS.md` |
-| **Cursor** | Sem `CURSOR.md` / `AGENTS.md` global. Usa `~/.cursor/rules/gui-agents.mdc` (`alwaysApply`) com `@~/.agents/AGENTS.md` — link, não cópia. |
+Then add a row to the skills table in `AGENTS.md` and copy the upstream `LICENSE` into `vendor/<source>/` if it is a new source.
 
-## Redirects
+My own: create `own/<skill>/SKILL.md`, or add the repo to the clone list at the top of `bin/ensure-redirects` if it lives elsewhere.
 
-| Path | → |
-|------|---|
-| `~/.cursor/skills` | `~/.agents/skills` |
-| `~/.claude/skills` | `~/.agents/skills` |
-| `~/.claude/CLAUDE.md` | `~/.agents/AGENTS.md` |
-| `~/.codex/AGENTS.md` | `~/.agents/AGENTS.md` |
-| `~/.cursor/rules/gui-agents.mdc` | `@` → `~/.agents/AGENTS.md` (alwaysApply) |
+## Conventions
 
-Cursor também lê `~/.agents/skills/` nativamente; o symlink em `~/.cursor/skills` cobre compatibilidade.
+- `description` says **when** to use the skill, as triggers. What the skill is goes in the body.
+- Skills are model-invoked. `disable-model-invocation: true` is only for destructive workflows like deploys.
+- A project's own `AGENTS.md`, skills and design system beat this folder. Product specifics stay in the product repo.
 
-## Auto-uso (Claude + Cursor)
+## License
 
-Skills **sem** `disable-model-invocation` = o modelo pode (e deve) invocar sozinho quando a `description` casar.
-
-Garantias deste kit:
-
-1. Symlinks: `~/.claude/skills` e `~/.cursor/skills` → `~/.agents/skills`
-2. `~/.agents/AGENTS.md` (sempre on via Claude `CLAUDE.md` + Cursor rule) lista o catálogo e manda **ler o SKILL.md antes de agir**
-3. `description` = só **QUANDO** (gatilhos em pt-BR)
-
-Se uma skill “não pega”: reforça gatilhos na `description`, ou invoca `/nome-da-skill`. Não use `disable-model-invocation: true` nestas skills de ofício (só em workflows destrutivos tipo deploy).
-
-Depois de editar `AGENTS.md`: `~/.agents/bin/ensure-redirects`
-
-
-### Header (obrigatório)
-
-```yaml
----
-name: babysit-pr
-description: >-
-  Use quando o usuário pedir para monitorar, acompanhar, watch ou babysit um PR.
-metadata:
-  harness: [claude, cursor, codex]
-  platform: [darwin, linux]
----
-```
-
-| Campo | Regra |
-|-------|--------|
-| `name` | kebab-case |
-| `description` | Só **QUANDO** usar (gatilhos). Não explique o que a skill “é”. |
-| `metadata.harness` | Sempre incluir `claude`, `cursor`, `codex` (os que aplicam) |
-| `metadata.platform` | `darwin`, `linux` conforme suporte |
-| ~~`scope`~~ | **Não usar** |
-
-Corpo: passos + exemplos ❌/✅. Sem prosa.
-
-## Repo vs home
-
-m4core (e outros) mantêm o próprio `AGENTS.md` / `.agents/skills/m4core-*`. Não misturar domínio de produto aqui. Em conflito: **repo/product vence** preferência pessoal.
-
-## Backup do wipe
-
-`~/.agent-home-backup-2026-08-11/`
+My files (`AGENTS.md`, `bin/`, `own/`) are [MIT](LICENSE). Each folder in `vendor/` keeps its upstream license.
