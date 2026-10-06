@@ -5,7 +5,7 @@
 
 # agents
 
-My agent setup: one instruction file and 40 skills, shared by Claude Code, Codex and Cursor from a single folder. Edit once, every harness picks it up in the next session.
+My agent setup: one instruction file and 40 skills, shared by Claude Code, Codex and Cursor from a single folder.
 
 The instructions ([`AGENTS.md`](AGENTS.md)) are in Portuguese; they are written for me and the agents I work with. The structure and the scripts are the part worth copying.
 
