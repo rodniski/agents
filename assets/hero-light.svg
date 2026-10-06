@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" role="img" aria-label="One folder, ~/.agents, linked by symlinks to Claude Code, Codex and Cursor: AGENTS.md as instructions for all three, skills/ for Claude Code and Cursor.">
+<style>
+    .card{fill:#fbfaf7;stroke:#e4e1da}
+    .box{fill:none;stroke:#e4e1da}
+    .src{fill:none;stroke:#8a857c;stroke-dasharray:4 4}
+    .cap{font:600 12.5px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;letter-spacing:.12em;fill:#8a857c}
+    .name{font:600 17px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;fill:#1c1b19}
+    .file{font:600 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#1c1b19}
+    .note{font:14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;fill:#8a857c}
+    .path{font:14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .instr{fill:#2f6f5e;stroke:#2f6f5e}
+    .skills{fill:#b4442a;stroke:#b4442a}
+    .none{fill:#8a857c}
+    text.instr,text.skills{stroke:none}
+    .link{fill:none;stroke-width:1.6;stroke-dashoffset:0;animation:draw .5s ease-out backwards}
+    .end{stroke:none;animation:pop .25s ease-out backwards}
+    .foot{font:14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;fill:#8a857c}
+    @keyframes draw{from{stroke-dashoffset:var(--len)}}
+    @keyframes pop{from{opacity:0}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important}}
+    </style>
+<rect class="card" x=".5" y=".5" width="879" height="439" rx="14"/>
+<text x="48" y="42" class="cap">ONE FOLDER</text>
+<text x="520" y="42" class="cap">THREE HARNESSES</text>
+<rect class="src" x="48" y="137" width="272" height="170" rx="10"/>
+<text x="70" y="173" class="path none">~/.agents</text>
+<text x="70" y="207" class="file">AGENTS.md</text>
+<text x="70" y="229" class="note">instructions, always on</text>
+<text x="70" y="267" class="file">skills/</text>
+<text x="70" y="289" class="note">40 skills, flat symlinks</text>
+<circle class="end instr" cx="320" cy="201" r="3.5"/>
+<circle class="end skills" cx="320" cy="261" r="3.5"/>
+<path class="link instr" d="M320,201 C417.0,201 417.0,115 514,115" style="stroke-dasharray:220;animation-delay:0.40s;--len:220"/><circle class="end instr" cx="514" cy="115" r="3.5" style="animation-delay:0.85s"/>
+<path class="link skills" d="M320,261 C417.0,261 417.0,137 514,137" style="stroke-dasharray:242;animation-delay:0.75s;--len:242"/><circle class="end skills" cx="514" cy="137" r="3.5" style="animation-delay:1.20s"/>
+<path class="link instr" d="M320,201 C417.0,201 417.0,227 514,227" style="stroke-dasharray:198;animation-delay:1.10s;--len:198"/><circle class="end instr" cx="514" cy="227" r="3.5" style="animation-delay:1.55s"/>
+<path class="link instr" d="M320,201 C417.0,201 417.0,339 514,339" style="stroke-dasharray:251;animation-delay:1.45s;--len:251"/><circle class="end instr" cx="514" cy="339" r="3.5" style="animation-delay:1.90s"/>
+<path class="link skills" d="M320,261 C417.0,261 417.0,361 514,361" style="stroke-dasharray:228;animation-delay:1.80s;--len:228"/><circle class="end skills" cx="514" cy="361" r="3.5" style="animation-delay:2.25s"/>
+<rect class="box" x="520" y="64" width="312" height="92" rx="10"/><text x="540" y="94" class="name">Claude Code</text><text x="540" y="120" class="path instr">~/.claude/CLAUDE.md</text><text x="540" y="142" class="path skills">~/.claude/skills</text>
+<rect class="box" x="520" y="176" width="312" height="92" rx="10"/><text x="540" y="206" class="name">Codex</text><text x="540" y="232" class="path instr">~/.codex/AGENTS.md</text><text x="540" y="254" class="path none">no skills link</text>
+<rect class="box" x="520" y="288" width="312" height="92" rx="10"/><text x="540" y="318" class="name">Cursor</text><text x="540" y="344" class="path instr">rules/gui-agents.mdc</text><text x="540" y="366" class="path skills">~/.cursor/skills</text>
+<text x="48" y="406" class="foot">bin/ensure-redirects creates every link. Nothing is copied.</text>
+</svg>
