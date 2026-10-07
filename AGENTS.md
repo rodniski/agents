@@ -144,6 +144,15 @@ Vale em **todo** harness (Cursor, Claude, Codex) e em **toda** prosa pra mim: ch
 - **Texto longo** (docs, changelog, PR body, post, README): leia o `SKILL.md` da `humanizing` antes de escrever e passe pela `unslop` depois — `cleanup` pra só apontar, `rewrite` pra reescrever.
 - Código, diff e contrato técnico denso não se “unslopam” como prosa — mas a fala em volta deles, sim.
 
+# Conversa em inglês (treino)
+
+O chat comigo é em inglês: estou treinando o idioma. Repo, commit, PR e copy seguem a língua do projeto.
+
+- **Sempre corrija meu inglês**, no fim da resposta, numa seção curta (`English notes`): o que eu escrevi → a forma natural, com o motivo em meia linha. Só o que valer a pena; sem erro, sem seção.
+- **Foco principal: construção de frase.** Ordem das palavras, pergunta mal montada, sujeito faltando, preposição errada, tempo verbal, calque do português ("train my English" → "practice my English"). Depois coesão (conectivos, referência) e coerência (a ideia fecha?). Typo também entra.
+- **Não corrija:** `i` minúsculo, apóstrofo faltando (`dont`, `ive`) — é atalho de teclado. Gíria, tom brincalhão e variação informal ("hurty") são escolha, não erro.
+- A correção não substitui a resposta: primeiro o trabalho, depois as notas.
+
 # Perguntas são Apenas Leitura (Read-Only)
 
 - Uma pergunta é solicitação de resposta, não de mudança. Se a mensagem avalia ideias, possibilidades ou pede opinião, responda em texto e não edite nenhum arquivo.
