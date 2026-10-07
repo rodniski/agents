@@ -162,6 +162,15 @@ O chat comigo é em inglês: estou treinando o idioma. Repo, commit, PR e copy s
 
 - Não instancie subagentes ou painéis multi-agente pra tarefa que um único agente resolve de primeira. Delegação é pra escopo amplo ou revisão crítica, não pro trabalho comum.
 - Quando vários agentes trabalharem em paralelo, defina explicitamente qual agente é dono de qual arquivo antes de começar — evita colisão.
+- Quando o escopo pedir, pode usar subagentes via Workflow sem me perguntar.
+- Pode abrir worktree por conta própria quando achar que vale (trabalho paralelo, mudança grande, working tree sujo de outra tarefa).
+
+# Commit e push sem pedir
+
+- Terminou uma entrega? Commite na branch atual e dê push. Não precisa me perguntar.
+- Commit só com o que você mudou: `git add` por arquivo, nunca `-A` com trabalho alheio no working tree.
+- Repo do time: na branch padrão ou protegida (`main`, `dev`), crie uma branch antes de commitar, sem push direto nela. Repo pessoal (`rodniski/*`) pode ir direto na `main`.
+- PR só quando eu pedir.
 
 # Trabalho Visual e Design
 
