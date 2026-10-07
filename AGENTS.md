@@ -162,7 +162,7 @@ O chat comigo é em inglês: estou treinando o idioma. Repo, commit, PR e copy s
 
 - Não instancie subagentes ou painéis multi-agente pra tarefa que um único agente resolve de primeira. Delegação é pra escopo amplo ou revisão crítica, não pro trabalho comum.
 - Quando vários agentes trabalharem em paralelo, defina explicitamente qual agente é dono de qual arquivo antes de começar — evita colisão.
-- Quando o escopo pedir, pode usar subagentes via Workflow sem me perguntar.
+- Quando o escopo pedir, pode usar subagentes via Workflow sem me perguntar. Escolha o modelo por agente conforme a necessidade: o mais forte pra decisão, revisão crítica e coordenação; um mais barato pra volume e trabalho mecânico.
 - Pode abrir worktree por conta própria quando achar que vale (trabalho paralelo, mudança grande, working tree sujo de outra tarefa).
 
 # Commit e push sem pedir
