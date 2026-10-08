@@ -164,6 +164,7 @@ O chat comigo é em inglês: estou treinando o idioma. Repo, commit, PR e copy s
 - Quando vários agentes trabalharem em paralelo, defina explicitamente qual agente é dono de qual arquivo antes de começar — evita colisão.
 - Quando o escopo pedir, pode usar subagentes via Workflow sem me perguntar. Escolha o modelo por agente conforme a necessidade: o mais forte pra decisão, revisão crítica e coordenação; um mais barato pra volume e trabalho mecânico.
 - Pode abrir worktree por conta própria quando achar que vale (trabalho paralelo, mudança grande, working tree sujo de outra tarefa).
+- Entrega longa com UI (workflow, vários agentes) é **ao vivo**: antes de lançar, suba o dev server e abra a tela no meu navegador; a cada peça que cair (botão, casca, cada bloco, backend, conexão), mostre na hora, na ordem em que eu valido. Corrijo no meio do caminho, então o briefing dos agentes tem que poder absorver ajuste meu antes da fase seguinte.
 
 # Commit e push sem pedir
 
